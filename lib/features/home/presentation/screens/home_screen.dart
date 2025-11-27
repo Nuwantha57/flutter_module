@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/home_cubit.dart';
+import 'websocket_echo_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -32,6 +33,18 @@ class HomeScreen extends StatelessWidget {
                           const SizedBox(height: 16),
                           _buildInfoRow('Email', user.email),
                           _buildInfoRow('User ID', user.userId),
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const WebSocketEchoScreen(),
+                                ),
+                              );
+                            },
+                            child: const Text('Test WebSocket Echo'),
+                          ),
                         ],
                       ),
                     ),
