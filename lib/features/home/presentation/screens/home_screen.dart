@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_module/features/home/presentation/cubit/ble_cubit.dart';
+import 'package:flutter_module/features/home/presentation/cubit/wifi_cubit.dart';
 import 'package:flutter_module/features/home/presentation/screens/ble_screen.dart';
+import 'package:flutter_module/features/home/presentation/screens/wifi_screen.dart';
 import 'package:flutter_module/services/platform_channel_service.dart';
 import '../cubit/home_cubit.dart';
 import 'websocket_echo_screen.dart';
@@ -76,6 +78,31 @@ class HomeScreen extends StatelessWidget {
                   ),
 
                   const SizedBox(height: 20),
+
+                  // Wi-Fi Networks Button - ADD THIS
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BlocProvider(
+                            create: (_) => WiFiCubit(PlatformChannelService()),
+                            child: const WiFiScreen(),
+                          ),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.wifi),
+                    label: const Text('View Wi-Fi Networks'),
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(double.infinity, 48),
+                      backgroundColor: Colors.green,
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // Logout Button
                   ElevatedButton(
                     onPressed: () {
                       context.read<HomeCubit>().logout();
