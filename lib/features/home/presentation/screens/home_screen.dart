@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_module/features/home/presentation/cubit/ble_cubit.dart';
+import 'package:flutter_module/features/home/presentation/screens/ble_screen.dart';
+import 'package:flutter_module/services/platform_channel_service.dart';
 import '../cubit/home_cubit.dart';
 import 'websocket_echo_screen.dart';
 
@@ -49,6 +52,29 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
+                  const SizedBox(height: 20),
+
+                  // BLE Devices Button
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BlocProvider(
+                            create: (_) => BleCubit(PlatformChannelService()),
+                            child: const BleScreen(),
+                          ),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.bluetooth),
+                    label: const Text('View BLE Devices'),
+                    style: ElevatedButton.styleFrom(
+                      minimumSize: const Size(double.infinity, 48),
+                      backgroundColor: const Color.fromARGB(255, 128, 228, 186),
+                    ),
+                  ),
+
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: () {
