@@ -79,7 +79,7 @@ class HomeScreen extends StatelessWidget {
 
                   const SizedBox(height: 20),
 
-                  // Wi-Fi Networks Button - ADD THIS
+                  // Wi-Fi Networks Button
                   ElevatedButton.icon(
                     onPressed: () {
                       Navigator.push(

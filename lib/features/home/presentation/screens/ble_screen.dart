@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_module/features/ble/domain/entities/ble_device.dart';
 import 'package:flutter_module/features/home/presentation/cubit/ble_cubit.dart';
 import 'package:flutter_module/features/home/presentation/cubit/ble_state.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class BleScreen extends StatefulWidget {
   const BleScreen({Key? key}) : super(key: key);
@@ -15,8 +16,56 @@ class _BleScreenState extends State<BleScreen> {
   @override
   void initState() {
     super.initState();
-    // Load saved devices when screen opens
     context.read<BleCubit>().loadSavedDevices();
+  }
+
+  // ADD THIS METHOD
+  Future<bool> _requestPermissions() async {
+    // For Android 8.1, only need location permission
+    final locationStatus = await Permission.location.request();
+
+    if (locationStatus.isGranted) {
+      return true;
+    } else if (locationStatus.isPermanentlyDenied) {
+      // Show dialog to open settings
+      _showPermissionDialog();
+      return false;
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Location permission is required for BLE scanning'),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return false;
+    }
+  }
+
+  // ADD THIS METHOD
+  void _showPermissionDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Permission Required'),
+        content: const Text(
+          'Location permission is required for Bluetooth scanning. '
+          'Please enable it in Settings.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+              openAppSettings();
+            },
+            child: const Text('Open Settings'),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -240,7 +289,13 @@ class _BleScreenState extends State<BleScreen> {
             backgroundColor: Colors.red,
           ),
           orElse: () => FloatingActionButton.extended(
-            onPressed: () => context.read<BleCubit>().startScan(),
+            onPressed: () async {
+              // REQUEST PERMISSION BEFORE SCANNING
+              final hasPermission = await _requestPermissions();
+              if (hasPermission) {
+                context.read<BleCubit>().startScan();
+              }
+            },
             icon: const Icon(Icons.search),
             label: const Text('Scan'),
             backgroundColor: Colors.blueAccent,
