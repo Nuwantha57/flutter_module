@@ -26,20 +26,22 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons:
-    ^1.0.8
+  cupertino_icons: ^1.0.8
 
-    # State Management
+  # State Management
   flutter_bloc: ^8.1.6
-  bloc:
-    ^8.1.4
+  bloc: ^8.1.4
 
-    # Code Generation
+  # Code Generation
   freezed_annotation: ^2.4.4
   permission_handler: ^11.0.1
   json_annotation: ^4.9.0
   web_socket_channel: ^3.0.3
   equatable: ^2.0.5
+
+  # HTTP & Payment
+  http: ^1.2.0 # For API calls to your backend
+  adyen_checkout: ^1.7.0 # Adyen Flutter SDK
 
 dev_dependencies:
   flutter_test:

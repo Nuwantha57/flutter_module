@@ -4,9 +4,13 @@ import 'package:flutter_module/features/home/presentation/cubit/ble_cubit.dart';
 import 'package:flutter_module/features/home/presentation/cubit/wifi_cubit.dart';
 import 'package:flutter_module/features/home/presentation/screens/ble_screen.dart';
 import 'package:flutter_module/features/home/presentation/screens/wifi_screen.dart';
+import 'package:flutter_module/features/payment/data/repositories/payment_repository.dart';
 import 'package:flutter_module/services/platform_channel_service.dart';
 import '../cubit/home_cubit.dart';
 import 'websocket_echo_screen.dart';
+import '../../../payment/presentation/cubits/payment_cubit.dart';
+import '../../../payment/presentation/screens/payment_screen.dart';
+import '../../../../services/payment_api_service.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -97,6 +101,34 @@ class HomeScreen extends StatelessWidget {
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(double.infinity, 48),
                       backgroundColor: Colors.green,
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // Payment Button
+                  ElevatedButton.icon(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => BlocProvider(
+                            create: (_) => PaymentCubit(
+                              PaymentRepository(PaymentApiService()),
+                            ),
+                            child: const PaymentScreen(
+                              amountMinor: 1000, // $10.00
+                              currency: 'USD',
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    icon: const Icon(Icons.payment),
+                    label: const Text('Pay with Card'),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.green,
+                      minimumSize: const Size(double.infinity, 50),
                     ),
                   ),
 
