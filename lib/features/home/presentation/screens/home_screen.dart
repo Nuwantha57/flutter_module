@@ -13,7 +13,7 @@ import '../../../payment/presentation/screens/payment_screen.dart';
 import '../../../../services/payment_api_service.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

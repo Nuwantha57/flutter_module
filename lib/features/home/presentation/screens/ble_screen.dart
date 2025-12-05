@@ -6,7 +6,7 @@ import 'package:flutter_module/features/home/presentation/cubit/ble_state.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class BleScreen extends StatefulWidget {
-  const BleScreen({Key? key}) : super(key: key);
+  const BleScreen({super.key});
 
   @override
   State<BleScreen> createState() => _BleScreenState();

@@ -1,4 +1,4 @@
-import 'package:flutter_module/services/payment_api_service.dart';
+import '../../../../services/payment_api_service.dart';
 import '../../domain/entities/payment_info.dart';
 
 class PaymentRepository {
@@ -10,31 +10,16 @@ class PaymentRepository {
     return await _apiService.getAdyenConfig();
   }
 
-  Future<PaymentResponseDto> initiatePayment(
-    PaymentInfo info,
-    Map<String, dynamic> paymentMethod,
-  ) async {
-    final request = PaymentRequestDto(
+  Future<SessionResponseDto> createSession(PaymentInfo info) async {
+    final request = SessionRequestDto(
       amount: AmountDto(currency: info.currency, value: info.amountMinor),
       reference: info.reference,
-      returnUrl: 'myapp://payment-return', // Configure this in Adyen dashboard
-      paymentMethod: paymentMethod,
+      returnUrl: 'myapp://payment-return',
       shopperReference: info.shopperReference,
       shopperEmail: info.shopperEmail,
+      countryCode: 'US', // Change based on your region
     );
 
-    return await _apiService.initiatePayment(request);
-  }
-
-  Future<PaymentResponseDto> submitPaymentDetails(
-    Map<String, String> details,
-    String paymentData,
-  ) async {
-    final request = PaymentDetailsRequestDto(
-      details: details,
-      paymentData: paymentData,
-    );
-
-    return await _apiService.submitPaymentDetails(request);
+    return await _apiService.createSession(request);
   }
 }

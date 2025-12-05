@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/websocket_cubit.dart';
 
 class WebSocketEchoScreen extends StatefulWidget {
-  const WebSocketEchoScreen({Key? key}) : super(key: key);
+  const WebSocketEchoScreen({super.key});
 
   @override
   State<WebSocketEchoScreen> createState() => _WebSocketEchoScreenState();

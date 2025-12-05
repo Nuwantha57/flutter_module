@@ -50,6 +50,21 @@ class PaymentApiService {
       throw Exception('Payment details submission failed: ${response.body}');
     }
   }
+
+  /// Create payment session
+  Future<SessionResponseDto> createSession(SessionRequestDto request) async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/api/payments/adyen/sessions'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode(request.toJson()),
+    );
+
+    if (response.statusCode == 200) {
+      return SessionResponseDto.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Session creation failed: ${response.body}');
+    }
+  }
 }
 
 // DTOs
@@ -147,5 +162,48 @@ class PaymentDetailsRequestDto {
 
   Map<String, dynamic> toJson() {
     return {'details': details, 'paymentData': paymentData};
+  }
+}
+
+class SessionRequestDto {
+  final AmountDto amount;
+  final String reference;
+  final String returnUrl;
+  final String? shopperReference;
+  final String? shopperEmail;
+  final String countryCode;
+
+  SessionRequestDto({
+    required this.amount,
+    required this.reference,
+    required this.returnUrl,
+    this.shopperReference,
+    this.shopperEmail,
+    this.countryCode = 'US',
+  });
+
+  Map<String, dynamic> toJson() {
+    return {
+      'amount': amount.toJson(),
+      'reference': reference,
+      'returnUrl': returnUrl,
+      if (shopperReference != null) 'shopperReference': shopperReference,
+      if (shopperEmail != null) 'shopperEmail': shopperEmail,
+      'countryCode': countryCode,
+    };
+  }
+}
+
+class SessionResponseDto {
+  final String id;
+  final String sessionData;
+
+  SessionResponseDto({required this.id, required this.sessionData});
+
+  factory SessionResponseDto.fromJson(Map<String, dynamic> json) {
+    return SessionResponseDto(
+      id: json['id'] as String,
+      sessionData: json['sessionData'] as String,
+    );
   }
 }

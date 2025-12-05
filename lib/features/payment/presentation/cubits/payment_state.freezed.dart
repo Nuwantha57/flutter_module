@@ -27,10 +27,15 @@ mixin _$PaymentState {
       String merchantAccount,
     )
     configLoaded,
+    required TResult Function(
+      String sessionId,
+      String sessionData,
+      String clientKey,
+      String environment,
+    )
+    sessionCreated,
     required TResult Function() processing,
-    required TResult Function(Map<String, dynamic> action, String paymentData)
-    requires3DS,
-    required TResult Function(String pspReference) success,
+    required TResult Function(String resultCode, String? pspReference) success,
     required TResult Function(String reason) failed,
     required TResult Function(String message) error,
   }) => throw _privateConstructorUsedError;
@@ -44,10 +49,15 @@ mixin _$PaymentState {
       String merchantAccount,
     )?
     configLoaded,
+    TResult? Function(
+      String sessionId,
+      String sessionData,
+      String clientKey,
+      String environment,
+    )?
+    sessionCreated,
     TResult? Function()? processing,
-    TResult? Function(Map<String, dynamic> action, String paymentData)?
-    requires3DS,
-    TResult? Function(String pspReference)? success,
+    TResult? Function(String resultCode, String? pspReference)? success,
     TResult? Function(String reason)? failed,
     TResult? Function(String message)? error,
   }) => throw _privateConstructorUsedError;
@@ -61,10 +71,15 @@ mixin _$PaymentState {
       String merchantAccount,
     )?
     configLoaded,
+    TResult Function(
+      String sessionId,
+      String sessionData,
+      String clientKey,
+      String environment,
+    )?
+    sessionCreated,
     TResult Function()? processing,
-    TResult Function(Map<String, dynamic> action, String paymentData)?
-    requires3DS,
-    TResult Function(String pspReference)? success,
+    TResult Function(String resultCode, String? pspReference)? success,
     TResult Function(String reason)? failed,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -74,8 +89,8 @@ mixin _$PaymentState {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_ConfigLoaded value) configLoaded,
+    required TResult Function(_SessionCreated value) sessionCreated,
     required TResult Function(_Processing value) processing,
-    required TResult Function(_Requires3DS value) requires3DS,
     required TResult Function(_Success value) success,
     required TResult Function(_Failed value) failed,
     required TResult Function(_Error value) error,
@@ -85,8 +100,8 @@ mixin _$PaymentState {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_ConfigLoaded value)? configLoaded,
+    TResult? Function(_SessionCreated value)? sessionCreated,
     TResult? Function(_Processing value)? processing,
-    TResult? Function(_Requires3DS value)? requires3DS,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failed value)? failed,
     TResult? Function(_Error value)? error,
@@ -96,8 +111,8 @@ mixin _$PaymentState {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_ConfigLoaded value)? configLoaded,
+    TResult Function(_SessionCreated value)? sessionCreated,
     TResult Function(_Processing value)? processing,
-    TResult Function(_Requires3DS value)? requires3DS,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
     TResult Function(_Error value)? error,
@@ -178,10 +193,15 @@ class _$InitialImpl implements _Initial {
       String merchantAccount,
     )
     configLoaded,
+    required TResult Function(
+      String sessionId,
+      String sessionData,
+      String clientKey,
+      String environment,
+    )
+    sessionCreated,
     required TResult Function() processing,
-    required TResult Function(Map<String, dynamic> action, String paymentData)
-    requires3DS,
-    required TResult Function(String pspReference) success,
+    required TResult Function(String resultCode, String? pspReference) success,
     required TResult Function(String reason) failed,
     required TResult Function(String message) error,
   }) {
@@ -199,10 +219,15 @@ class _$InitialImpl implements _Initial {
       String merchantAccount,
     )?
     configLoaded,
+    TResult? Function(
+      String sessionId,
+      String sessionData,
+      String clientKey,
+      String environment,
+    )?
+    sessionCreated,
     TResult? Function()? processing,
-    TResult? Function(Map<String, dynamic> action, String paymentData)?
-    requires3DS,
-    TResult? Function(String pspReference)? success,
+    TResult? Function(String resultCode, String? pspReference)? success,
     TResult? Function(String reason)? failed,
     TResult? Function(String message)? error,
   }) {
@@ -220,10 +245,15 @@ class _$InitialImpl implements _Initial {
       String merchantAccount,
     )?
     configLoaded,
+    TResult Function(
+      String sessionId,
+      String sessionData,
+      String clientKey,
+      String environment,
+    )?
+    sessionCreated,
     TResult Function()? processing,
-    TResult Function(Map<String, dynamic> action, String paymentData)?
-    requires3DS,
-    TResult Function(String pspReference)? success,
+    TResult Function(String resultCode, String? pspReference)? success,
     TResult Function(String reason)? failed,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -240,8 +270,8 @@ class _$InitialImpl implements _Initial {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_ConfigLoaded value) configLoaded,
+    required TResult Function(_SessionCreated value) sessionCreated,
     required TResult Function(_Processing value) processing,
-    required TResult Function(_Requires3DS value) requires3DS,
     required TResult Function(_Success value) success,
     required TResult Function(_Failed value) failed,
     required TResult Function(_Error value) error,
@@ -255,8 +285,8 @@ class _$InitialImpl implements _Initial {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_ConfigLoaded value)? configLoaded,
+    TResult? Function(_SessionCreated value)? sessionCreated,
     TResult? Function(_Processing value)? processing,
-    TResult? Function(_Requires3DS value)? requires3DS,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failed value)? failed,
     TResult? Function(_Error value)? error,
@@ -270,8 +300,8 @@ class _$InitialImpl implements _Initial {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_ConfigLoaded value)? configLoaded,
+    TResult Function(_SessionCreated value)? sessionCreated,
     TResult Function(_Processing value)? processing,
-    TResult Function(_Requires3DS value)? requires3DS,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
     TResult Function(_Error value)? error,
@@ -339,10 +369,15 @@ class _$LoadingImpl implements _Loading {
       String merchantAccount,
     )
     configLoaded,
+    required TResult Function(
+      String sessionId,
+      String sessionData,
+      String clientKey,
+      String environment,
+    )
+    sessionCreated,
     required TResult Function() processing,
-    required TResult Function(Map<String, dynamic> action, String paymentData)
-    requires3DS,
-    required TResult Function(String pspReference) success,
+    required TResult Function(String resultCode, String? pspReference) success,
     required TResult Function(String reason) failed,
     required TResult Function(String message) error,
   }) {
@@ -360,10 +395,15 @@ class _$LoadingImpl implements _Loading {
       String merchantAccount,
     )?
     configLoaded,
+    TResult? Function(
+      String sessionId,
+      String sessionData,
+      String clientKey,
+      String environment,
+    )?
+    sessionCreated,
     TResult? Function()? processing,
-    TResult? Function(Map<String, dynamic> action, String paymentData)?
-    requires3DS,
-    TResult? Function(String pspReference)? success,
+    TResult? Function(String resultCode, String? pspReference)? success,
     TResult? Function(String reason)? failed,
     TResult? Function(String message)? error,
   }) {
@@ -381,10 +421,15 @@ class _$LoadingImpl implements _Loading {
       String merchantAccount,
     )?
     configLoaded,
+    TResult Function(
+      String sessionId,
+      String sessionData,
+      String clientKey,
+      String environment,
+    )?
+    sessionCreated,
     TResult Function()? processing,
-    TResult Function(Map<String, dynamic> action, String paymentData)?
-    requires3DS,
-    TResult Function(String pspReference)? success,
+    TResult Function(String resultCode, String? pspReference)? success,
     TResult Function(String reason)? failed,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -401,8 +446,8 @@ class _$LoadingImpl implements _Loading {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_ConfigLoaded value) configLoaded,
+    required TResult Function(_SessionCreated value) sessionCreated,
     required TResult Function(_Processing value) processing,
-    required TResult Function(_Requires3DS value) requires3DS,
     required TResult Function(_Success value) success,
     required TResult Function(_Failed value) failed,
     required TResult Function(_Error value) error,
@@ -416,8 +461,8 @@ class _$LoadingImpl implements _Loading {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_ConfigLoaded value)? configLoaded,
+    TResult? Function(_SessionCreated value)? sessionCreated,
     TResult? Function(_Processing value)? processing,
-    TResult? Function(_Requires3DS value)? requires3DS,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failed value)? failed,
     TResult? Function(_Error value)? error,
@@ -431,8 +476,8 @@ class _$LoadingImpl implements _Loading {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_ConfigLoaded value)? configLoaded,
+    TResult Function(_SessionCreated value)? sessionCreated,
     TResult Function(_Processing value)? processing,
-    TResult Function(_Requires3DS value)? requires3DS,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
     TResult Function(_Error value)? error,
@@ -553,10 +598,15 @@ class _$ConfigLoadedImpl implements _ConfigLoaded {
       String merchantAccount,
     )
     configLoaded,
+    required TResult Function(
+      String sessionId,
+      String sessionData,
+      String clientKey,
+      String environment,
+    )
+    sessionCreated,
     required TResult Function() processing,
-    required TResult Function(Map<String, dynamic> action, String paymentData)
-    requires3DS,
-    required TResult Function(String pspReference) success,
+    required TResult Function(String resultCode, String? pspReference) success,
     required TResult Function(String reason) failed,
     required TResult Function(String message) error,
   }) {
@@ -574,10 +624,15 @@ class _$ConfigLoadedImpl implements _ConfigLoaded {
       String merchantAccount,
     )?
     configLoaded,
+    TResult? Function(
+      String sessionId,
+      String sessionData,
+      String clientKey,
+      String environment,
+    )?
+    sessionCreated,
     TResult? Function()? processing,
-    TResult? Function(Map<String, dynamic> action, String paymentData)?
-    requires3DS,
-    TResult? Function(String pspReference)? success,
+    TResult? Function(String resultCode, String? pspReference)? success,
     TResult? Function(String reason)? failed,
     TResult? Function(String message)? error,
   }) {
@@ -595,10 +650,15 @@ class _$ConfigLoadedImpl implements _ConfigLoaded {
       String merchantAccount,
     )?
     configLoaded,
+    TResult Function(
+      String sessionId,
+      String sessionData,
+      String clientKey,
+      String environment,
+    )?
+    sessionCreated,
     TResult Function()? processing,
-    TResult Function(Map<String, dynamic> action, String paymentData)?
-    requires3DS,
-    TResult Function(String pspReference)? success,
+    TResult Function(String resultCode, String? pspReference)? success,
     TResult Function(String reason)? failed,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -615,8 +675,8 @@ class _$ConfigLoadedImpl implements _ConfigLoaded {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_ConfigLoaded value) configLoaded,
+    required TResult Function(_SessionCreated value) sessionCreated,
     required TResult Function(_Processing value) processing,
-    required TResult Function(_Requires3DS value) requires3DS,
     required TResult Function(_Success value) success,
     required TResult Function(_Failed value) failed,
     required TResult Function(_Error value) error,
@@ -630,8 +690,8 @@ class _$ConfigLoadedImpl implements _ConfigLoaded {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_ConfigLoaded value)? configLoaded,
+    TResult? Function(_SessionCreated value)? sessionCreated,
     TResult? Function(_Processing value)? processing,
-    TResult? Function(_Requires3DS value)? requires3DS,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failed value)? failed,
     TResult? Function(_Error value)? error,
@@ -645,8 +705,8 @@ class _$ConfigLoadedImpl implements _ConfigLoaded {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_ConfigLoaded value)? configLoaded,
+    TResult Function(_SessionCreated value)? sessionCreated,
     TResult Function(_Processing value)? processing,
-    TResult Function(_Requires3DS value)? requires3DS,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
     TResult Function(_Error value)? error,
@@ -674,6 +734,269 @@ abstract class _ConfigLoaded implements PaymentState {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ConfigLoadedImplCopyWith<_$ConfigLoadedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$SessionCreatedImplCopyWith<$Res> {
+  factory _$$SessionCreatedImplCopyWith(
+    _$SessionCreatedImpl value,
+    $Res Function(_$SessionCreatedImpl) then,
+  ) = __$$SessionCreatedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({
+    String sessionId,
+    String sessionData,
+    String clientKey,
+    String environment,
+  });
+}
+
+/// @nodoc
+class __$$SessionCreatedImplCopyWithImpl<$Res>
+    extends _$PaymentStateCopyWithImpl<$Res, _$SessionCreatedImpl>
+    implements _$$SessionCreatedImplCopyWith<$Res> {
+  __$$SessionCreatedImplCopyWithImpl(
+    _$SessionCreatedImpl _value,
+    $Res Function(_$SessionCreatedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of PaymentState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? sessionId = null,
+    Object? sessionData = null,
+    Object? clientKey = null,
+    Object? environment = null,
+  }) {
+    return _then(
+      _$SessionCreatedImpl(
+        sessionId: null == sessionId
+            ? _value.sessionId
+            : sessionId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        sessionData: null == sessionData
+            ? _value.sessionData
+            : sessionData // ignore: cast_nullable_to_non_nullable
+                  as String,
+        clientKey: null == clientKey
+            ? _value.clientKey
+            : clientKey // ignore: cast_nullable_to_non_nullable
+                  as String,
+        environment: null == environment
+            ? _value.environment
+            : environment // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$SessionCreatedImpl implements _SessionCreated {
+  const _$SessionCreatedImpl({
+    required this.sessionId,
+    required this.sessionData,
+    required this.clientKey,
+    required this.environment,
+  });
+
+  @override
+  final String sessionId;
+  @override
+  final String sessionData;
+  @override
+  final String clientKey;
+  @override
+  final String environment;
+
+  @override
+  String toString() {
+    return 'PaymentState.sessionCreated(sessionId: $sessionId, sessionData: $sessionData, clientKey: $clientKey, environment: $environment)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SessionCreatedImpl &&
+            (identical(other.sessionId, sessionId) ||
+                other.sessionId == sessionId) &&
+            (identical(other.sessionData, sessionData) ||
+                other.sessionData == sessionData) &&
+            (identical(other.clientKey, clientKey) ||
+                other.clientKey == clientKey) &&
+            (identical(other.environment, environment) ||
+                other.environment == environment));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, sessionId, sessionData, clientKey, environment);
+
+  /// Create a copy of PaymentState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$SessionCreatedImplCopyWith<_$SessionCreatedImpl> get copyWith =>
+      __$$SessionCreatedImplCopyWithImpl<_$SessionCreatedImpl>(
+        this,
+        _$identity,
+      );
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function(
+      String clientKey,
+      String environment,
+      String merchantAccount,
+    )
+    configLoaded,
+    required TResult Function(
+      String sessionId,
+      String sessionData,
+      String clientKey,
+      String environment,
+    )
+    sessionCreated,
+    required TResult Function() processing,
+    required TResult Function(String resultCode, String? pspReference) success,
+    required TResult Function(String reason) failed,
+    required TResult Function(String message) error,
+  }) {
+    return sessionCreated(sessionId, sessionData, clientKey, environment);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function(
+      String clientKey,
+      String environment,
+      String merchantAccount,
+    )?
+    configLoaded,
+    TResult? Function(
+      String sessionId,
+      String sessionData,
+      String clientKey,
+      String environment,
+    )?
+    sessionCreated,
+    TResult? Function()? processing,
+    TResult? Function(String resultCode, String? pspReference)? success,
+    TResult? Function(String reason)? failed,
+    TResult? Function(String message)? error,
+  }) {
+    return sessionCreated?.call(sessionId, sessionData, clientKey, environment);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function(
+      String clientKey,
+      String environment,
+      String merchantAccount,
+    )?
+    configLoaded,
+    TResult Function(
+      String sessionId,
+      String sessionData,
+      String clientKey,
+      String environment,
+    )?
+    sessionCreated,
+    TResult Function()? processing,
+    TResult Function(String resultCode, String? pspReference)? success,
+    TResult Function(String reason)? failed,
+    TResult Function(String message)? error,
+    required TResult orElse(),
+  }) {
+    if (sessionCreated != null) {
+      return sessionCreated(sessionId, sessionData, clientKey, environment);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_Loading value) loading,
+    required TResult Function(_ConfigLoaded value) configLoaded,
+    required TResult Function(_SessionCreated value) sessionCreated,
+    required TResult Function(_Processing value) processing,
+    required TResult Function(_Success value) success,
+    required TResult Function(_Failed value) failed,
+    required TResult Function(_Error value) error,
+  }) {
+    return sessionCreated(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_Loading value)? loading,
+    TResult? Function(_ConfigLoaded value)? configLoaded,
+    TResult? Function(_SessionCreated value)? sessionCreated,
+    TResult? Function(_Processing value)? processing,
+    TResult? Function(_Success value)? success,
+    TResult? Function(_Failed value)? failed,
+    TResult? Function(_Error value)? error,
+  }) {
+    return sessionCreated?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_ConfigLoaded value)? configLoaded,
+    TResult Function(_SessionCreated value)? sessionCreated,
+    TResult Function(_Processing value)? processing,
+    TResult Function(_Success value)? success,
+    TResult Function(_Failed value)? failed,
+    TResult Function(_Error value)? error,
+    required TResult orElse(),
+  }) {
+    if (sessionCreated != null) {
+      return sessionCreated(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _SessionCreated implements PaymentState {
+  const factory _SessionCreated({
+    required final String sessionId,
+    required final String sessionData,
+    required final String clientKey,
+    required final String environment,
+  }) = _$SessionCreatedImpl;
+
+  String get sessionId;
+  String get sessionData;
+  String get clientKey;
+  String get environment;
+
+  /// Create a copy of PaymentState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$SessionCreatedImplCopyWith<_$SessionCreatedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -728,10 +1051,15 @@ class _$ProcessingImpl implements _Processing {
       String merchantAccount,
     )
     configLoaded,
+    required TResult Function(
+      String sessionId,
+      String sessionData,
+      String clientKey,
+      String environment,
+    )
+    sessionCreated,
     required TResult Function() processing,
-    required TResult Function(Map<String, dynamic> action, String paymentData)
-    requires3DS,
-    required TResult Function(String pspReference) success,
+    required TResult Function(String resultCode, String? pspReference) success,
     required TResult Function(String reason) failed,
     required TResult Function(String message) error,
   }) {
@@ -749,10 +1077,15 @@ class _$ProcessingImpl implements _Processing {
       String merchantAccount,
     )?
     configLoaded,
+    TResult? Function(
+      String sessionId,
+      String sessionData,
+      String clientKey,
+      String environment,
+    )?
+    sessionCreated,
     TResult? Function()? processing,
-    TResult? Function(Map<String, dynamic> action, String paymentData)?
-    requires3DS,
-    TResult? Function(String pspReference)? success,
+    TResult? Function(String resultCode, String? pspReference)? success,
     TResult? Function(String reason)? failed,
     TResult? Function(String message)? error,
   }) {
@@ -770,10 +1103,15 @@ class _$ProcessingImpl implements _Processing {
       String merchantAccount,
     )?
     configLoaded,
+    TResult Function(
+      String sessionId,
+      String sessionData,
+      String clientKey,
+      String environment,
+    )?
+    sessionCreated,
     TResult Function()? processing,
-    TResult Function(Map<String, dynamic> action, String paymentData)?
-    requires3DS,
-    TResult Function(String pspReference)? success,
+    TResult Function(String resultCode, String? pspReference)? success,
     TResult Function(String reason)? failed,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -790,8 +1128,8 @@ class _$ProcessingImpl implements _Processing {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_ConfigLoaded value) configLoaded,
+    required TResult Function(_SessionCreated value) sessionCreated,
     required TResult Function(_Processing value) processing,
-    required TResult Function(_Requires3DS value) requires3DS,
     required TResult Function(_Success value) success,
     required TResult Function(_Failed value) failed,
     required TResult Function(_Error value) error,
@@ -805,8 +1143,8 @@ class _$ProcessingImpl implements _Processing {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_ConfigLoaded value)? configLoaded,
+    TResult? Function(_SessionCreated value)? sessionCreated,
     TResult? Function(_Processing value)? processing,
-    TResult? Function(_Requires3DS value)? requires3DS,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failed value)? failed,
     TResult? Function(_Error value)? error,
@@ -820,8 +1158,8 @@ class _$ProcessingImpl implements _Processing {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_ConfigLoaded value)? configLoaded,
+    TResult Function(_SessionCreated value)? sessionCreated,
     TResult Function(_Processing value)? processing,
-    TResult Function(_Requires3DS value)? requires3DS,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
     TResult Function(_Error value)? error,
@@ -839,234 +1177,13 @@ abstract class _Processing implements PaymentState {
 }
 
 /// @nodoc
-abstract class _$$Requires3DSImplCopyWith<$Res> {
-  factory _$$Requires3DSImplCopyWith(
-    _$Requires3DSImpl value,
-    $Res Function(_$Requires3DSImpl) then,
-  ) = __$$Requires3DSImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({Map<String, dynamic> action, String paymentData});
-}
-
-/// @nodoc
-class __$$Requires3DSImplCopyWithImpl<$Res>
-    extends _$PaymentStateCopyWithImpl<$Res, _$Requires3DSImpl>
-    implements _$$Requires3DSImplCopyWith<$Res> {
-  __$$Requires3DSImplCopyWithImpl(
-    _$Requires3DSImpl _value,
-    $Res Function(_$Requires3DSImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of PaymentState
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? action = null, Object? paymentData = null}) {
-    return _then(
-      _$Requires3DSImpl(
-        action: null == action
-            ? _value._action
-            : action // ignore: cast_nullable_to_non_nullable
-                  as Map<String, dynamic>,
-        paymentData: null == paymentData
-            ? _value.paymentData
-            : paymentData // ignore: cast_nullable_to_non_nullable
-                  as String,
-      ),
-    );
-  }
-}
-
-/// @nodoc
-
-class _$Requires3DSImpl implements _Requires3DS {
-  const _$Requires3DSImpl({
-    required final Map<String, dynamic> action,
-    required this.paymentData,
-  }) : _action = action;
-
-  final Map<String, dynamic> _action;
-  @override
-  Map<String, dynamic> get action {
-    if (_action is EqualUnmodifiableMapView) return _action;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableMapView(_action);
-  }
-
-  @override
-  final String paymentData;
-
-  @override
-  String toString() {
-    return 'PaymentState.requires3DS(action: $action, paymentData: $paymentData)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$Requires3DSImpl &&
-            const DeepCollectionEquality().equals(other._action, _action) &&
-            (identical(other.paymentData, paymentData) ||
-                other.paymentData == paymentData));
-  }
-
-  @override
-  int get hashCode => Object.hash(
-    runtimeType,
-    const DeepCollectionEquality().hash(_action),
-    paymentData,
-  );
-
-  /// Create a copy of PaymentState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$Requires3DSImplCopyWith<_$Requires3DSImpl> get copyWith =>
-      __$$Requires3DSImplCopyWithImpl<_$Requires3DSImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function(
-      String clientKey,
-      String environment,
-      String merchantAccount,
-    )
-    configLoaded,
-    required TResult Function() processing,
-    required TResult Function(Map<String, dynamic> action, String paymentData)
-    requires3DS,
-    required TResult Function(String pspReference) success,
-    required TResult Function(String reason) failed,
-    required TResult Function(String message) error,
-  }) {
-    return requires3DS(action, paymentData);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function(
-      String clientKey,
-      String environment,
-      String merchantAccount,
-    )?
-    configLoaded,
-    TResult? Function()? processing,
-    TResult? Function(Map<String, dynamic> action, String paymentData)?
-    requires3DS,
-    TResult? Function(String pspReference)? success,
-    TResult? Function(String reason)? failed,
-    TResult? Function(String message)? error,
-  }) {
-    return requires3DS?.call(action, paymentData);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function(
-      String clientKey,
-      String environment,
-      String merchantAccount,
-    )?
-    configLoaded,
-    TResult Function()? processing,
-    TResult Function(Map<String, dynamic> action, String paymentData)?
-    requires3DS,
-    TResult Function(String pspReference)? success,
-    TResult Function(String reason)? failed,
-    TResult Function(String message)? error,
-    required TResult orElse(),
-  }) {
-    if (requires3DS != null) {
-      return requires3DS(action, paymentData);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_Initial value) initial,
-    required TResult Function(_Loading value) loading,
-    required TResult Function(_ConfigLoaded value) configLoaded,
-    required TResult Function(_Processing value) processing,
-    required TResult Function(_Requires3DS value) requires3DS,
-    required TResult Function(_Success value) success,
-    required TResult Function(_Failed value) failed,
-    required TResult Function(_Error value) error,
-  }) {
-    return requires3DS(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Initial value)? initial,
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_ConfigLoaded value)? configLoaded,
-    TResult? Function(_Processing value)? processing,
-    TResult? Function(_Requires3DS value)? requires3DS,
-    TResult? Function(_Success value)? success,
-    TResult? Function(_Failed value)? failed,
-    TResult? Function(_Error value)? error,
-  }) {
-    return requires3DS?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Initial value)? initial,
-    TResult Function(_Loading value)? loading,
-    TResult Function(_ConfigLoaded value)? configLoaded,
-    TResult Function(_Processing value)? processing,
-    TResult Function(_Requires3DS value)? requires3DS,
-    TResult Function(_Success value)? success,
-    TResult Function(_Failed value)? failed,
-    TResult Function(_Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (requires3DS != null) {
-      return requires3DS(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _Requires3DS implements PaymentState {
-  const factory _Requires3DS({
-    required final Map<String, dynamic> action,
-    required final String paymentData,
-  }) = _$Requires3DSImpl;
-
-  Map<String, dynamic> get action;
-  String get paymentData;
-
-  /// Create a copy of PaymentState
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$Requires3DSImplCopyWith<_$Requires3DSImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
 abstract class _$$SuccessImplCopyWith<$Res> {
   factory _$$SuccessImplCopyWith(
     _$SuccessImpl value,
     $Res Function(_$SuccessImpl) then,
   ) = __$$SuccessImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String pspReference});
+  $Res call({String resultCode, String? pspReference});
 }
 
 /// @nodoc
@@ -1082,13 +1199,17 @@ class __$$SuccessImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? pspReference = null}) {
+  $Res call({Object? resultCode = null, Object? pspReference = freezed}) {
     return _then(
       _$SuccessImpl(
-        pspReference: null == pspReference
+        resultCode: null == resultCode
+            ? _value.resultCode
+            : resultCode // ignore: cast_nullable_to_non_nullable
+                  as String,
+        pspReference: freezed == pspReference
             ? _value.pspReference
             : pspReference // ignore: cast_nullable_to_non_nullable
-                  as String,
+                  as String?,
       ),
     );
   }
@@ -1097,14 +1218,16 @@ class __$$SuccessImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$SuccessImpl implements _Success {
-  const _$SuccessImpl({required this.pspReference});
+  const _$SuccessImpl({required this.resultCode, this.pspReference});
 
   @override
-  final String pspReference;
+  final String resultCode;
+  @override
+  final String? pspReference;
 
   @override
   String toString() {
-    return 'PaymentState.success(pspReference: $pspReference)';
+    return 'PaymentState.success(resultCode: $resultCode, pspReference: $pspReference)';
   }
 
   @override
@@ -1112,12 +1235,14 @@ class _$SuccessImpl implements _Success {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$SuccessImpl &&
+            (identical(other.resultCode, resultCode) ||
+                other.resultCode == resultCode) &&
             (identical(other.pspReference, pspReference) ||
                 other.pspReference == pspReference));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, pspReference);
+  int get hashCode => Object.hash(runtimeType, resultCode, pspReference);
 
   /// Create a copy of PaymentState
   /// with the given fields replaced by the non-null parameter values.
@@ -1138,14 +1263,19 @@ class _$SuccessImpl implements _Success {
       String merchantAccount,
     )
     configLoaded,
+    required TResult Function(
+      String sessionId,
+      String sessionData,
+      String clientKey,
+      String environment,
+    )
+    sessionCreated,
     required TResult Function() processing,
-    required TResult Function(Map<String, dynamic> action, String paymentData)
-    requires3DS,
-    required TResult Function(String pspReference) success,
+    required TResult Function(String resultCode, String? pspReference) success,
     required TResult Function(String reason) failed,
     required TResult Function(String message) error,
   }) {
-    return success(pspReference);
+    return success(resultCode, pspReference);
   }
 
   @override
@@ -1159,14 +1289,19 @@ class _$SuccessImpl implements _Success {
       String merchantAccount,
     )?
     configLoaded,
+    TResult? Function(
+      String sessionId,
+      String sessionData,
+      String clientKey,
+      String environment,
+    )?
+    sessionCreated,
     TResult? Function()? processing,
-    TResult? Function(Map<String, dynamic> action, String paymentData)?
-    requires3DS,
-    TResult? Function(String pspReference)? success,
+    TResult? Function(String resultCode, String? pspReference)? success,
     TResult? Function(String reason)? failed,
     TResult? Function(String message)? error,
   }) {
-    return success?.call(pspReference);
+    return success?.call(resultCode, pspReference);
   }
 
   @override
@@ -1180,16 +1315,21 @@ class _$SuccessImpl implements _Success {
       String merchantAccount,
     )?
     configLoaded,
+    TResult Function(
+      String sessionId,
+      String sessionData,
+      String clientKey,
+      String environment,
+    )?
+    sessionCreated,
     TResult Function()? processing,
-    TResult Function(Map<String, dynamic> action, String paymentData)?
-    requires3DS,
-    TResult Function(String pspReference)? success,
+    TResult Function(String resultCode, String? pspReference)? success,
     TResult Function(String reason)? failed,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (success != null) {
-      return success(pspReference);
+      return success(resultCode, pspReference);
     }
     return orElse();
   }
@@ -1200,8 +1340,8 @@ class _$SuccessImpl implements _Success {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_ConfigLoaded value) configLoaded,
+    required TResult Function(_SessionCreated value) sessionCreated,
     required TResult Function(_Processing value) processing,
-    required TResult Function(_Requires3DS value) requires3DS,
     required TResult Function(_Success value) success,
     required TResult Function(_Failed value) failed,
     required TResult Function(_Error value) error,
@@ -1215,8 +1355,8 @@ class _$SuccessImpl implements _Success {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_ConfigLoaded value)? configLoaded,
+    TResult? Function(_SessionCreated value)? sessionCreated,
     TResult? Function(_Processing value)? processing,
-    TResult? Function(_Requires3DS value)? requires3DS,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failed value)? failed,
     TResult? Function(_Error value)? error,
@@ -1230,8 +1370,8 @@ class _$SuccessImpl implements _Success {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_ConfigLoaded value)? configLoaded,
+    TResult Function(_SessionCreated value)? sessionCreated,
     TResult Function(_Processing value)? processing,
-    TResult Function(_Requires3DS value)? requires3DS,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
     TResult Function(_Error value)? error,
@@ -1245,9 +1385,13 @@ class _$SuccessImpl implements _Success {
 }
 
 abstract class _Success implements PaymentState {
-  const factory _Success({required final String pspReference}) = _$SuccessImpl;
+  const factory _Success({
+    required final String resultCode,
+    final String? pspReference,
+  }) = _$SuccessImpl;
 
-  String get pspReference;
+  String get resultCode;
+  String? get pspReference;
 
   /// Create a copy of PaymentState
   /// with the given fields replaced by the non-null parameter values.
@@ -1334,10 +1478,15 @@ class _$FailedImpl implements _Failed {
       String merchantAccount,
     )
     configLoaded,
+    required TResult Function(
+      String sessionId,
+      String sessionData,
+      String clientKey,
+      String environment,
+    )
+    sessionCreated,
     required TResult Function() processing,
-    required TResult Function(Map<String, dynamic> action, String paymentData)
-    requires3DS,
-    required TResult Function(String pspReference) success,
+    required TResult Function(String resultCode, String? pspReference) success,
     required TResult Function(String reason) failed,
     required TResult Function(String message) error,
   }) {
@@ -1355,10 +1504,15 @@ class _$FailedImpl implements _Failed {
       String merchantAccount,
     )?
     configLoaded,
+    TResult? Function(
+      String sessionId,
+      String sessionData,
+      String clientKey,
+      String environment,
+    )?
+    sessionCreated,
     TResult? Function()? processing,
-    TResult? Function(Map<String, dynamic> action, String paymentData)?
-    requires3DS,
-    TResult? Function(String pspReference)? success,
+    TResult? Function(String resultCode, String? pspReference)? success,
     TResult? Function(String reason)? failed,
     TResult? Function(String message)? error,
   }) {
@@ -1376,10 +1530,15 @@ class _$FailedImpl implements _Failed {
       String merchantAccount,
     )?
     configLoaded,
+    TResult Function(
+      String sessionId,
+      String sessionData,
+      String clientKey,
+      String environment,
+    )?
+    sessionCreated,
     TResult Function()? processing,
-    TResult Function(Map<String, dynamic> action, String paymentData)?
-    requires3DS,
-    TResult Function(String pspReference)? success,
+    TResult Function(String resultCode, String? pspReference)? success,
     TResult Function(String reason)? failed,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -1396,8 +1555,8 @@ class _$FailedImpl implements _Failed {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_ConfigLoaded value) configLoaded,
+    required TResult Function(_SessionCreated value) sessionCreated,
     required TResult Function(_Processing value) processing,
-    required TResult Function(_Requires3DS value) requires3DS,
     required TResult Function(_Success value) success,
     required TResult Function(_Failed value) failed,
     required TResult Function(_Error value) error,
@@ -1411,8 +1570,8 @@ class _$FailedImpl implements _Failed {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_ConfigLoaded value)? configLoaded,
+    TResult? Function(_SessionCreated value)? sessionCreated,
     TResult? Function(_Processing value)? processing,
-    TResult? Function(_Requires3DS value)? requires3DS,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failed value)? failed,
     TResult? Function(_Error value)? error,
@@ -1426,8 +1585,8 @@ class _$FailedImpl implements _Failed {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_ConfigLoaded value)? configLoaded,
+    TResult Function(_SessionCreated value)? sessionCreated,
     TResult Function(_Processing value)? processing,
-    TResult Function(_Requires3DS value)? requires3DS,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
     TResult Function(_Error value)? error,
@@ -1530,10 +1689,15 @@ class _$ErrorImpl implements _Error {
       String merchantAccount,
     )
     configLoaded,
+    required TResult Function(
+      String sessionId,
+      String sessionData,
+      String clientKey,
+      String environment,
+    )
+    sessionCreated,
     required TResult Function() processing,
-    required TResult Function(Map<String, dynamic> action, String paymentData)
-    requires3DS,
-    required TResult Function(String pspReference) success,
+    required TResult Function(String resultCode, String? pspReference) success,
     required TResult Function(String reason) failed,
     required TResult Function(String message) error,
   }) {
@@ -1551,10 +1715,15 @@ class _$ErrorImpl implements _Error {
       String merchantAccount,
     )?
     configLoaded,
+    TResult? Function(
+      String sessionId,
+      String sessionData,
+      String clientKey,
+      String environment,
+    )?
+    sessionCreated,
     TResult? Function()? processing,
-    TResult? Function(Map<String, dynamic> action, String paymentData)?
-    requires3DS,
-    TResult? Function(String pspReference)? success,
+    TResult? Function(String resultCode, String? pspReference)? success,
     TResult? Function(String reason)? failed,
     TResult? Function(String message)? error,
   }) {
@@ -1572,10 +1741,15 @@ class _$ErrorImpl implements _Error {
       String merchantAccount,
     )?
     configLoaded,
+    TResult Function(
+      String sessionId,
+      String sessionData,
+      String clientKey,
+      String environment,
+    )?
+    sessionCreated,
     TResult Function()? processing,
-    TResult Function(Map<String, dynamic> action, String paymentData)?
-    requires3DS,
-    TResult Function(String pspReference)? success,
+    TResult Function(String resultCode, String? pspReference)? success,
     TResult Function(String reason)? failed,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -1592,8 +1766,8 @@ class _$ErrorImpl implements _Error {
     required TResult Function(_Initial value) initial,
     required TResult Function(_Loading value) loading,
     required TResult Function(_ConfigLoaded value) configLoaded,
+    required TResult Function(_SessionCreated value) sessionCreated,
     required TResult Function(_Processing value) processing,
-    required TResult Function(_Requires3DS value) requires3DS,
     required TResult Function(_Success value) success,
     required TResult Function(_Failed value) failed,
     required TResult Function(_Error value) error,
@@ -1607,8 +1781,8 @@ class _$ErrorImpl implements _Error {
     TResult? Function(_Initial value)? initial,
     TResult? Function(_Loading value)? loading,
     TResult? Function(_ConfigLoaded value)? configLoaded,
+    TResult? Function(_SessionCreated value)? sessionCreated,
     TResult? Function(_Processing value)? processing,
-    TResult? Function(_Requires3DS value)? requires3DS,
     TResult? Function(_Success value)? success,
     TResult? Function(_Failed value)? failed,
     TResult? Function(_Error value)? error,
@@ -1622,8 +1796,8 @@ class _$ErrorImpl implements _Error {
     TResult Function(_Initial value)? initial,
     TResult Function(_Loading value)? loading,
     TResult Function(_ConfigLoaded value)? configLoaded,
+    TResult Function(_SessionCreated value)? sessionCreated,
     TResult Function(_Processing value)? processing,
-    TResult Function(_Requires3DS value)? requires3DS,
     TResult Function(_Success value)? success,
     TResult Function(_Failed value)? failed,
     TResult Function(_Error value)? error,

@@ -5,7 +5,7 @@ import 'package:flutter_module/features/home/presentation/cubit/wifi_cubit.dart'
 import 'package:flutter_module/features/home/presentation/cubit/wifi_state.dart';
 
 class WiFiScreen extends StatefulWidget {
-  const WiFiScreen({Key? key}) : super(key: key);
+  const WiFiScreen({super.key});
 
   @override
   State<WiFiScreen> createState() => _WiFiScreenState();

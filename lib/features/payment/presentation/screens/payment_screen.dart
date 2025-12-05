@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-// import 'package:adyen_checkout/adyen_checkout.dart'; // TODO: Uncomment when implementing
+import 'package:adyen_checkout/adyen_checkout.dart';
 import '../cubits/payment_cubit.dart';
 import '../cubits/payment_state.dart';
-// import '../../domain/entities/payment_info.dart'; // TODO: Uncomment when implementing
+import '../../domain/entities/payment_info.dart';
 
 class PaymentScreen extends StatefulWidget {
-  final int amountMinor; // Pass from parent (e.g., 1000 for $10.00)
-  final String currency; // Pass from parent (e.g., "USD")
+  final int amountMinor;
+  final String currency;
 
   const PaymentScreen({
     super.key,
-    this.amountMinor = 1000, // Default $10.00 for testing
+    this.amountMinor = 1000,
     this.currency = 'USD',
   });
 
@@ -41,9 +41,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 SnackBar(content: Text(message), backgroundColor: Colors.red),
               );
             },
-            requires3DS: (action, paymentData) {
-              _handle3DS(context, action, paymentData);
-            },
             orElse: () {},
           );
         },
@@ -56,16 +53,19 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 children: [
                   CircularProgressIndicator(),
                   SizedBox(height: 16),
-                  Text('Loading payment configuration...'),
+                  Text('Loading...'),
                 ],
               ),
             ),
             configLoaded: (clientKey, environment, merchantAccount) {
-              return _buildPaymentForm(
-                context,
+              return _buildConfigLoadedView(context);
+            },
+            sessionCreated: (sessionId, sessionData, clientKey, environment) {
+              return _buildSessionView(
+                sessionId,
+                sessionData,
                 clientKey,
                 environment,
-                merchantAccount,
               );
             },
             processing: () => const Center(
@@ -78,17 +78,9 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 ],
               ),
             ),
-            requires3DS: (action, paymentData) => const Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  CircularProgressIndicator(),
-                  SizedBox(height: 16),
-                  Text('Completing authentication...'),
-                ],
-              ),
-            ),
-            success: (pspReference) => _buildSuccessScreen(pspReference),
+            success: (resultCode, pspReference) {
+              return _buildSuccessScreen(pspReference);
+            },
             failed: (reason) => _buildFailedScreen(reason),
             error: (message) => _buildErrorScreen(message),
           );
@@ -97,12 +89,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-  Widget _buildPaymentForm(
-    BuildContext context,
-    String clientKey,
-    String environment,
-    String merchantAccount,
-  ) {
+  Widget _buildConfigLoadedView(BuildContext context) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -122,12 +109,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
             ),
             const SizedBox(height: 32),
             ElevatedButton.icon(
-              onPressed: () => _startCardPayment(
-                context,
-                clientKey,
-                environment,
-                merchantAccount,
-              ),
+              onPressed: () => _startPayment(),
               icon: const Icon(Icons.credit_card),
               label: const Text('Pay with Card'),
               style: ElevatedButton.styleFrom(
@@ -142,7 +124,93 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-  Widget _buildSuccessScreen(String pspReference) {
+  Widget _buildSessionView(
+    String sessionId,
+    String sessionData,
+    String clientKey,
+    String environment,
+  ) {
+    final cardConfiguration = CardComponentConfiguration(
+      environment: environment == 'live'
+          ? Environment.europe
+          : Environment.test,
+      clientKey: clientKey,
+      countryCode: 'US',
+      shopperLocale: 'en_US',
+    );
+
+    return FutureBuilder<SessionCheckout>(
+      future: AdyenCheckout.session.create(
+        sessionId: sessionId,
+        sessionData: sessionData,
+        configuration: cardConfiguration,
+      ),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(height: 16),
+                Text('Preparing payment...'),
+              ],
+            ),
+          );
+        }
+
+        if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        }
+
+        if (!snapshot.hasData) {
+          return const Center(child: Text('Unable to create session'));
+        }
+
+        final sessionCheckout = snapshot.data!;
+
+        // Extract card payment method from paymentMethods map
+        final paymentMethodsList =
+            sessionCheckout.paymentMethods['paymentMethods'] as List?;
+        final cardPaymentMethod = paymentMethodsList?.firstWhere(
+          (method) => method['type'] == 'scheme',
+          orElse: () => null,
+        );
+
+        if (cardPaymentMethod == null) {
+          return const Center(child: Text('No card payment method available'));
+        }
+
+        return AdyenCardComponent(
+          configuration: cardConfiguration,
+          paymentMethod: cardPaymentMethod,
+          checkout: sessionCheckout,
+          onPaymentResult: (PaymentResult paymentResult) async {
+            switch (paymentResult) {
+              case PaymentSessionFinished():
+                context.read<PaymentCubit>().handlePaymentResult(
+                  paymentResult.resultCode.name,
+                  pspReference: paymentResult.sessionResult,
+                );
+              case PaymentError():
+                context.read<PaymentCubit>().handleError(
+                  paymentResult.reason ?? 'Payment error',
+                );
+              case PaymentCancelledByUser():
+                context.read<PaymentCubit>().handleError('Payment cancelled');
+              case PaymentAdvancedFinished():
+                context.read<PaymentCubit>().handlePaymentResult(
+                  paymentResult.resultCode.name,
+                  pspReference: null,
+                );
+            }
+          },
+        );
+      },
+    );
+  }
+
+  Widget _buildSuccessScreen(String? pspReference) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(24.0),
@@ -160,12 +228,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
               'Amount: ${_formatAmount(widget.amountMinor, widget.currency)}',
               style: const TextStyle(fontSize: 18),
             ),
-            const SizedBox(height: 8),
-            Text(
-              'Reference: $pspReference',
-              style: const TextStyle(fontSize: 14, color: Colors.grey),
-              textAlign: TextAlign.center,
-            ),
+            if (pspReference != null) ...[
+              const SizedBox(height: 8),
+              Text(
+                'Reference: $pspReference',
+                style: const TextStyle(fontSize: 14, color: Colors.grey),
+              ),
+            ],
             const SizedBox(height: 32),
             ElevatedButton(
               onPressed: () => Navigator.pop(context, true),
@@ -249,64 +318,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
   }
 
-  Future<void> _startCardPayment(
-    BuildContext context,
-    String clientKey,
-    String environment,
-    String merchantAccount,
-  ) async {
-    try {
-      // For now, show a message that direct integration is needed
-      // The adyen_checkout package API requires checking the official documentation
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Payment integration in progress. Please check adyen_checkout package documentation for the correct API.',
-          ),
-          backgroundColor: Colors.orange,
-          duration: Duration(seconds: 5),
-        ),
-      );
+  void _startPayment() {
+    final paymentInfo = PaymentInfo.create(
+      amountMinor: widget.amountMinor,
+      currency: widget.currency,
+      description: 'Payment via card',
+    );
 
-      // TODO: Implement based on actual adyen_checkout v1.7.0 API
-      // The correct implementation depends on the package's exposed methods
-      // Check: https://pub.dev/packages/adyen_checkout for documentation
-    } catch (e) {
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Card payment cancelled or error: $e'),
-          backgroundColor: Colors.orange,
-        ),
-      );
-    }
-  }
-
-  Future<void> _handle3DS(
-    BuildContext context,
-    Map<String, dynamic> action,
-    String paymentData,
-  ) async {
-    try {
-      // TODO: Implement 3DS handling based on actual adyen_checkout v1.7.0 API
-      // The correct implementation depends on the package's exposed methods
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            '3DS handling needs to be implemented with correct adyen_checkout API',
-          ),
-          backgroundColor: Colors.orange,
-          duration: Duration(seconds: 3),
-        ),
-      );
-    } catch (e) {
-      if (!context.mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('3DS failed: $e'), backgroundColor: Colors.red),
-      );
-    }
+    context.read<PaymentCubit>().createSession(paymentInfo);
   }
 
   String _formatAmount(int amountMinor, String currency) {

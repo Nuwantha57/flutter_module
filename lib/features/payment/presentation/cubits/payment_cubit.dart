@@ -1,20 +1,24 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_module/services/payment_api_service.dart';
 import 'payment_state.dart';
 import '../../data/repositories/payment_repository.dart';
 import '../../domain/entities/payment_info.dart';
 
 class PaymentCubit extends Cubit<PaymentState> {
   final PaymentRepository _repository;
+  String? _clientKey;
+  String? _environment;
 
   PaymentCubit(this._repository) : super(const PaymentState.initial());
 
-  /// Load Adyen configuration from backend
+  /// Load Adyen configuration
   Future<void> loadConfig() async {
     try {
       emit(const PaymentState.loading());
 
       final config = await _repository.getConfig();
+
+      _clientKey = config.clientKey;
+      _environment = config.environment;
 
       emit(
         PaymentState.configLoaded(
@@ -28,74 +32,43 @@ class PaymentCubit extends Cubit<PaymentState> {
     }
   }
 
-  /// Initiate payment with card data
-  Future<void> initiatePayment(
-    PaymentInfo info,
-    Map<String, dynamic> paymentMethod,
-  ) async {
+  /// Create payment session
+  Future<void> createSession(PaymentInfo info) async {
     try {
-      emit(const PaymentState.processing());
+      emit(const PaymentState.loading());
 
-      final response = await _repository.initiatePayment(info, paymentMethod);
+      final session = await _repository.createSession(info);
 
-      _handlePaymentResponse(response);
-    } catch (e) {
-      emit(PaymentState.error(message: 'Payment failed: $e'));
-    }
-  }
-
-  /// Submit 3DS details
-  Future<void> submit3DSDetails({
-    required Map<String, String> details,
-    required String paymentData,
-  }) async {
-    try {
-      emit(const PaymentState.processing());
-
-      final response = await _repository.submitPaymentDetails(
-        details,
-        paymentData,
+      emit(
+        PaymentState.sessionCreated(
+          sessionId: session.id,
+          sessionData: session.sessionData,
+          clientKey: _clientKey!,
+          environment: _environment!,
+        ),
       );
-
-      _handlePaymentResponse(response);
     } catch (e) {
-      emit(PaymentState.error(message: '3DS failed: $e'));
+      emit(PaymentState.error(message: 'Failed to create session: $e'));
     }
   }
 
-  void _handlePaymentResponse(PaymentResponseDto response) {
-    switch (response.resultCode) {
-      case 'Authorised':
-        emit(PaymentState.success(pspReference: response.pspReference ?? ''));
-        break;
-      case 'Refused':
-        emit(
-          PaymentState.failed(
-            reason: response.refusalReason ?? 'Payment refused',
-          ),
-        );
-        break;
-      case 'RedirectShopper':
-      case 'ChallengeShopper':
-        if (response.action != null) {
-          emit(
-            PaymentState.requires3DS(
-              action: response.action!,
-              paymentData: response.action!['paymentData'] ?? '',
-            ),
-          );
-        } else {
-          emit(
-            const PaymentState.error(
-              message: '3DS required but no action provided',
-            ),
-          );
-        }
-        break;
-      default:
-        emit(
-          PaymentState.error(message: 'Unknown result: ${response.resultCode}'),
-        );
+  /// Handle payment result from Adyen component
+  void handlePaymentResult(String resultCode, {String? pspReference}) {
+    if (resultCode == 'Authorised') {
+      emit(
+        PaymentState.success(
+          resultCode: resultCode,
+          pspReference: pspReference,
+        ),
+      );
+    } else if (resultCode == 'Refused' || resultCode == 'Cancelled') {
+      emit(PaymentState.failed(reason: resultCode));
+    } else {
+      emit(PaymentState.error(message: 'Unknown result: $resultCode'));
     }
+  }
+
+  void handleError(String message) {
+    emit(PaymentState.error(message: message));
   }
 }
