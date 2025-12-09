@@ -2,47 +2,47 @@ pipeline {
     agent any
     
     environment {
-        ANDROID_HOME = '/opt/android-sdk'
         FLUTTER_HOME = '/opt/flutter'
-        PATH = "${FLUTTER_HOME}/bin:${ANDROID_HOME}/tools:${ANDROID_HOME}/platform-tools:${env.PATH}"
+        ANDROID_HOME = '/opt/android-sdk'
+        PATH = "${FLUTTER_HOME}/bin:${ANDROID_HOME}/platform-tools:${env.PATH}"
     }
     
     stages {
         stage('Checkout') {
             steps {
                 checkout scm
-                sh 'git submodule update --init --recursive'
             }
         }
         
-        stage('Flutter Setup') {
+        stage('Flutter Doctor') {
             steps {
-                dir('flutter_module') {
-                    sh 'flutter pub get'
-                    sh 'flutter doctor'
-                }
+                sh 'flutter --version'
+                sh 'flutter doctor -v'
             }
         }
         
-        stage('Build Android App') {
+        stage('Get Dependencies') {
             steps {
-                dir('mobile-app') {
-                    sh 'chmod +x gradlew'
-                    sh './gradlew clean assembleDebug'
-                }
+                sh 'flutter pub get'
             }
         }
         
-        stage('Archive APK') {
+        stage('Build AAR') {
             steps {
-                archiveArtifacts artifacts: 'mobile-app/app/build/outputs/apk/debug/*.apk', fingerprint: true
+                sh 'flutter build aar --release'
+            }
+        }
+        
+        stage('Archive Build') {
+            steps {
+                archiveArtifacts artifacts: 'build/host/outputs/repo/**/*', fingerprint: true
             }
         }
     }
     
     post {
         success {
-            echo 'Build completed successfully!'
+            echo 'Flutter module build completed successfully!'
         }
         failure {
             echo 'Build failed. Check console output.'
